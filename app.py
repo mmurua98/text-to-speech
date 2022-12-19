@@ -5,7 +5,7 @@ import os
 import shutil
 from mutagen.mp3 import MP3
 
-app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__)
 # CORS(app)
 # app.config['TEMPLATES_AUTO_RELOAD'] = True
 # app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
