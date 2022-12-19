@@ -5,7 +5,7 @@ import os
 import shutil
 from mutagen.mp3 import MP3
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 CORS(app)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
@@ -26,7 +26,7 @@ def convertText():
     # print(pathFile)
     global pathDir, origin, target, audioDuration
     audioName = converter.getAudioName()
-    print(audioName)
+    #print(audioName)
     #origin = "/textspeech/"+audioName
     pathDir = os.getcwd()
     origin = pathDir + '\\' + audioName
