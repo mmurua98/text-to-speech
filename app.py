@@ -38,13 +38,13 @@ def convertText():
     #print (audioDuration)
     # print(origin)
     # print(target)
-    webAudioPath = "../static/audio/"+audioName
+    #webAudioPath = "../static/audio/"+audioName
 
     if os.path.exists(origin):
         shutil.move(origin, target)
     
     #return render_template('index.html')
-    return render_template('index.html', pathAudio=webAudioPath), {"Refresh": ""+audioDuration+"; url=/"}
+    return render_template('index.html', pathAudio=audioName), {"Refresh": ""+audioDuration+"; url=/"}
 
 
 # @app.after_request
