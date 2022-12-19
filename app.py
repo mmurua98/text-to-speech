@@ -1,10 +1,15 @@
 from flask import Flask, render_template, request
+from flask_cors import CORS
 import converter
 import os
 import shutil
 from mutagen.mp3 import MP3
 
 app = Flask(__name__)
+CORS(app)
+app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+
 
 @app.route("/")
 def home():
@@ -21,6 +26,7 @@ def convertText():
     # print(pathFile)
     global pathDir, origin, target, audioDuration
     audioName = converter.getAudioName()
+    print(audioName)
     #origin = "/textspeech/"+audioName
     pathDir = os.getcwd()
     origin = pathDir + '\\' + audioName
@@ -32,12 +38,13 @@ def convertText():
     #print (audioDuration)
     # print(origin)
     # print(target)
+    webAudioPath = "../static/audio/"+audioName
 
     if os.path.exists(origin):
         shutil.move(origin, target)
     
     #return render_template('index.html')
-    return render_template('index.html', pathAudio=target), {"Refresh": ""+audioDuration+"; url=/"}
+    return render_template('index.html', pathAudio=webAudioPath), {"Refresh": ""+audioDuration+"; url=/"}
 
 
 # @app.after_request
