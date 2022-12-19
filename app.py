@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import converter
 import os
 import shutil
-import librosa
+from mutagen.mp3 import MP3
 
 app = Flask(__name__)
 
@@ -26,8 +26,10 @@ def convertText():
     origin = pathDir + '\\' + audioName
     target = os.path.join(pathDir, 'static\\audio', audioName)
 
-    audioDuration = str(librosa.get_duration(filename=audioName) + 20)
-    #print(audioDuration)
+    #get audio length
+    audioInfo = MP3(audioName)
+    audioDuration = str((audioInfo.info.length) + 15)
+    #print (audioDuration)
     # print(origin)
     # print(target)
 
