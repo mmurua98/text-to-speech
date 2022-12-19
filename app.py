@@ -37,7 +37,7 @@ def convertText():
         shutil.move(origin, target)
     
     #return render_template('index.html')
-    return render_template('index.html'), {"Refresh": ""+audioDuration+"; url=/"}
+    return render_template('index.html', pathAudio=target), {"Refresh": ""+audioDuration+"; url=/"}
 
 
 # @app.after_request
