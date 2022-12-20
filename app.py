@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, redirect, render_template, request
 from flask_cors import CORS, cross_origin
 from whitenoise import WhiteNoise
 import converter
@@ -23,14 +23,10 @@ def convertText():
     txtInput = request.form['text']
     converter.getText(txtInput)
 
-    # pathDir = os.getcwd()
-    # audioName = converter.getAudioName()
-    # pathFile = pathDir + '\\' + audioName
-    # print(pathFile)
-    global pathDir, origin, target, audioDuration
+
+    global pathDir, origin, target, audioDuration, audioFilePath
     audioName = converter.getAudioName()
-    #print(audioName)
-    #origin = "/textspeech/"+audioName
+
     pathDir = os.getcwd()
     origin = pathDir + '\\' + audioName
     target = os.path.join(pathDir, 'static\\audio', audioName)
@@ -38,39 +34,20 @@ def convertText():
     #get audio length
     audioInfo = MP3(audioName)
     audioDuration = str((audioInfo.info.length) + 15)
-    #print (audioDuration)
-    # print(origin)
-    # print(target)
-    #webAudioPath = "../static/audio/"+audioName
+
     audioFilePath = f"static/audio/{audioName}"
 
     if os.path.exists(origin):
         shutil.move(origin, target)
     
-    #return render_template('index.html')
-    return render_template('index.html', pathAudio=audioFilePath), {"Refresh": ""+audioDuration+"; url=/"}
+    return redirect('/getaudio')
+    #return render_template('index.html', pathAudio=audioFilePath), {"Refresh": ""+audioDuration+"; url=/"}
 
+@app.route("/getaudio")
+def getAudio():
+    #print(audioFilePath)
+    return render_template('audio.html', pathAudio=audioFilePath), {"Refresh": ""+audioDuration+"; url=/"}
 
-# @app.after_request
-# def refreshSite(response):
-#     if request.endpoint=="converter":
-#         return redirect(url_for('home')), {"Refresh": ""+audioDuration+"; url=/"}
-#         # if os.path.exists(target):
-#         #     try:
-#         #         #print(target)
-#         #         os.remove(target)
-#         #     except OSError as e: # name the Exception `e`
-#         #         print ("Failed with:", e.strerror)# look what it says
-#         #         print ("Error code:", e.errno )
-#     return response
-
-# @app.route("/getaudio", methods=['POST', 'GET'])
-# def showAudio():
-#     #pathDir = os.getcwd()
-#     # audioName = converter.getAudioName()
-#     # pathFile = pathDir + '\\' + audioName
-
-#     return render_template('index.html')
 
 
 if __name__ == "__main__":
